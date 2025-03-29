@@ -1,6 +1,13 @@
 # Linha do tempo Python
 
+O trabalho se trata da apresentação da linha de tempo da linguagem de programação Python e seus impactos.
+
 O Python é uma linguagem de programação interpretada, interativa e orientada a objetos. Há suporte a vários paradigmas de programação além da programação orientada a objetos, tal como programação procedural e funcional.
+
+## Alunos:
+- Otávio Oliveira Vieira
+- Enzo Rodrigues Ribeiro
+- Bruno Isaac Sanches Tavares
 
 ## Criado por:
 Guido van Rossum nasceu em 31 de Janeiro de 1956. Realizou seu mestrado em Matemática e Ciência da Computação na Universidade de Amsterdam em 1982. Foi medalhista de Bronze na olimpíada internacional de matemática.
