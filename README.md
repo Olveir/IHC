@@ -2,12 +2,18 @@
 
 O trabalho se trata da apresentação da linha de tempo da linguagem de programação Python e seus impactos.
 
-O Python é uma linguagem de programação interpretada, interativa e orientada a objetos. Há suporte a vários paradigmas de programação além da programação orientada a objetos, tal como programação procedural e funcional.
-
 ## Alunos:
 - Otávio Oliveira Vieira
 - Enzo Rodrigues Ribeiro
 - Bruno Isaac Sanches Tavares
+
+## Documento de pesquisa
+
+https://docs.google.com/document/d/1Qfjf5IKTgRpS37352Co7JHEFRtTPQtfhBIPyRb9IulQ/edit?usp=sharing
+
+## O que é Python?
+
+O Python é uma linguagem de programação interpretada, interativa e orientada a objetos. Há suporte a vários paradigmas de programação além da programação orientada a objetos, tal como programação procedural e funcional.
 
 ## Criado por:
 Guido van Rossum nasceu em 31 de Janeiro de 1956. Realizou seu mestrado em Matemática e Ciência da Computação na Universidade de Amsterdam em 1982. Foi medalhista de Bronze na olimpíada internacional de matemática.
