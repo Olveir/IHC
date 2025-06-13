@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SiMCCIT - Categorização Terapêutica</title>
+    <title>PsiTagger - Categorização Terapêutica</title>
     <style>
         :root {
-            --primary-color: #7b1fa2; /* Roxo vivo */
-            --secondary-color: #ce93d8; /* Roxo pastel */
-            --accent-color: #f3e5f5; /* Fundo pastel */
+            --primary-color: #7b1fa2;
+            --secondary-color: #ce93d8; 
+            --accent-color: #f3e5f5; 
             --text-dark: #333;
             --text-light: #fff;
+            --success-color: #2e7d32;
+            --error-color: #c62828;
+            --border-color: #ccc;
         }
 
         * {
@@ -22,59 +25,82 @@
         body {
             font-family: 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #f3e5f5 0%, #ede7f6 100%);
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
             min-height: 100vh;
+        }
+
+        .main-container {
+            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 2rem 1rem;
         }
-
-        .container {
+        
+        main {
             background: #ffffff;
             border-radius: 16px;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
-            padding: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            padding: 2rem;
             width: 100%;
             max-width: 860px;
         }
 
-        .header {
-            text-align: left;
-            margin-bottom: 32px;
+        header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+
+        .logo {
+            height: 110px;
+            margin-right: 1rem;
         }
 
         .title {
             color: var(--primary-color);
-            font-size: 30px;
+            font-size: 1.875rem; 
             font-weight: 600;
-            line-height: 1.2;
+        }
+        
+        fieldset {
+            border: none;
+            padding: 0;
+            margin: 0;
+            margin-bottom: 2rem;
         }
 
-        .section {
-            margin-bottom: 36px;
-        }
-
-        .section-title {
-            color: var(--primary-color);
-            font-size: 20px;
+        legend {
+            font-size: 1.25rem;
             font-weight: 500;
-            margin-bottom: 16px;
+            color: var(--primary-color);
+            padding: 0;
+            margin-bottom: 1rem;
+            width: 100%;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
         }
 
         .input-label {
-            color: var(--text-dark);
-            font-size: 14px;
-            margin-bottom: 8px;
+            font-size: 0.875rem; 
+            margin-bottom: 0.5rem;
             display: block;
+            font-weight: 500;
         }
 
         .textarea {
             width: 100%;
             min-height: 80px;
-            padding: 12px;
-            border: 2px solid #ccc;
+            padding: 0.75rem;
+            border: 2px solid var(--border-color);
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 0.875rem;
             font-family: inherit;
             resize: vertical;
             transition: border-color 0.2s ease;
@@ -85,71 +111,95 @@
             border-color: var(--primary-color);
         }
 
-        .btn-primary {
-            background: var(--primary-color);
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .btn {
             color: white;
             border: none;
-            padding: 12px 24px;
+            padding: 0.75rem 1.5rem;
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 0.875rem;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s ease;
+            transition: background-color 0.2s ease, transform 0.1s ease;
         }
 
-        .btn-primary:hover {
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn:disabled {
+            background-color: #bdbdbd;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+        }
+        .btn-primary:hover:not(:disabled) {
             background: #6a1b9a;
         }
 
         .btn-secondary {
             background: #ab47bc;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
+        }
+        .btn-secondary:hover:not(:disabled) {
+            background: #8e24aa;
         }
 
-        .btn-secondary:hover {
-            background: #8e24aa;
+        .table-container {
+            width: 100%;
+            overflow-x: auto; 
+            margin-top: 1.5rem;
         }
 
         .table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
+        .table th, .table td {
+            padding: 0.875rem;
+            text-align: left;
+            font-size: 0.875rem;
+            border-bottom: 1px solid #ddd;
+        }
+
         .table th {
             background: var(--accent-color);
             color: var(--primary-color);
-            padding: 14px;
-            text-align: left;
             font-weight: 500;
-            font-size: 14px;
+        }
+        
+        .table caption {
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 0.5rem;
+            text-align: left;
+            color: var(--text-dark);
+            caption-side: top;
         }
 
-        .table td {
-            padding: 14px;
-            border-bottom: 1px solid #ddd;
-            font-size: 14px;
-            color: var(--text-dark);
+        .table tr:last-child td {
+            border-bottom: none;
         }
 
         .table tr:nth-child(even) {
             background: #f9f9f9;
         }
 
-        .file-input-container {
+        .file-input-wrapper {
             position: relative;
             display: inline-block;
-            margin-bottom: 16px;
         }
 
         .file-input {
@@ -162,12 +212,11 @@
 
         .file-input-label {
             display: inline-block;
-            padding: 10px 16px;
+            padding: 0.625rem 1rem;
             background: var(--accent-color);
             border: 2px solid var(--primary-color);
             border-radius: 6px;
             cursor: pointer;
-            font-size: 14px;
             color: #6a1b9a;
             transition: all 0.2s ease;
         }
@@ -178,16 +227,17 @@
         }
 
         .file-status {
-            margin-left: 12px;
-            font-size: 14px;
+            margin-left: 0.75rem;
+            font-size: 0.875rem;
             color: #666;
+            font-style: italic;
         }
 
         .download-link {
             color: var(--primary-color);
             text-decoration: none;
-            font-size: 14px;
-            margin-left: 12px;
+            font-size: 0.875rem;
+            display: inline-block;
         }
 
         .download-link:hover {
@@ -195,11 +245,12 @@
         }
 
         .category-sre, .category-emp {
-            padding: 4px 8px;
+            padding: 0.25rem 0.5rem;
             border-radius: 4px;
-            font-size: 12px;
+            font-size: 0.75rem;
             font-weight: 500;
             display: inline-block;
+            white-space: nowrap;
         }
 
         .category-sre {
@@ -211,142 +262,279 @@
             background: #e1bee7;
             color: #4a148c;
         }
+        
+        .status-message {
+            margin-top: 1.5rem;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            border: 1px solid transparent;
+            display: none; 
+        }
+        .status-message.info {
+            background-color: #e3f2fd;
+            color: #1565c0;
+            border-color: #90caf9;
+        }
+        .status-message.success {
+            background-color: #e8f5e9;
+            color: var(--success-color);
+            border-color: #a5d6a7;
+        }
+        .status-message.error {
+            background-color: #ffcdd2;
+            color: var(--error-color);
+            border-color: #ef9a9a;
+        }
 
-        .input-group {
-            margin-bottom: 24px;
+        .page-footer {
+            background-color: #f1e3f5;
+            color: var(--text-dark);
+            padding: 2rem 1rem;
+            text-align: center;
+            border-top: 2px solid var(--primary-color);
+        }
+        .footer-container {
+            max-width: 860px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .footer-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+        }
+        .footer-section p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        .footer-section a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .footer-section a:hover {
+            text-decoration: underline;
+        }
+        .contact-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            line-height: 1.7;
+        }
+        .dev-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center; 
+        }
+        .dev-links a {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+        }
+        .dev-links a:hover {
+            background-color: var(--secondary-color);
+            text-decoration: none;
         }
 
         @media (max-width: 600px) {
-            .container {
-                padding: 20px;
+            .main-container {
+                padding: 1rem 0.5rem;
+            }
+            main {
+                padding: 1.25rem;
             }
             .title {
-                font-size: 24px;
+                font-size: 1.5rem; 
+            }
+            .button-group {
+                flex-direction: column;
+                align-items: flex-start;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container" role="main">
-        <header class="header">
-            <h1 class="title">SiMCCIT - Categorização Terapêutica</h1>
-        </header>
+    <div class="main-container">
+        <main>
+            <header>
+                <img src="logo.png" alt="Logo da PsiTagger" class="logo">
+                <h1 class="title">Categorização Terapêutica</h1>
+            </header>
 
-        <section class="section">
-            <h2 class="section-title">Categorização de Frases</h2>
-            <div class="input-group">
-                <label for="falas-terapeuta" class="input-label">Falas do Terapeuta:</label>
-                <textarea id="falas-terapeuta" class="textarea" placeholder="Digite as falas do terapeuta (uma por linha)
-Exemplo:
-Poderia me contar como foi seu dia?
-Eu entendo que pode ter sido cansativo"></textarea>
-            </div>
+            <fieldset>
+                <legend>Categorização Manual de Frases</legend>
+                <div class="input-group">
+                    <label for="falas-terapeuta" class="input-label">Falas do Terapeuta:</label>
+                    <textarea id="falas-terapeuta" class="textarea" rows="4" placeholder="Digite as falas do terapeuta (uma por linha)" required></textarea>
+                </div>
 
-            <div class="input-group">
-                <label for="falas-cliente" class="input-label">Falas do Cliente:</label>
-                <textarea id="falas-cliente" class="textarea" placeholder="Digite as falas do cliente (uma por linha)
-Exemplo:
-Foi um dia muito difícil
-Me senti sobrecarregado"></textarea>
-            </div>
+                <div class="input-group">
+                    <label for="falas-cliente" class="input-label">Falas do Cliente:</label>
+                    <textarea id="falas-cliente" class="textarea" rows="4" placeholder="Digite as falas do cliente (uma por linha)" required></textarea>
+                </div>
 
-            <button class="btn-primary" aria-label="Categorizar frases">Categorizar Frases</button>
+                <button id="btn-categorize-text" class="btn btn-primary" aria-label="Categorizar frases inseridas manualmente">Categorizar Frases</button>
 
-            <table class="table" aria-label="Tabela de falas categorizadas">
-                <thead>
-                    <tr>
-                        <th scope="col">Falante</th>
-                        <th scope="col">Texto</th>
-                        <th scope="col">Categoria</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Terapeuta</td>
-                        <td>Poderia me contar como foi seu dia?</td>
-                        <td><span class="category-sre">SRE</span></td>
-                    </tr>
-                    <tr>
-                        <td>Terapeuta</td>
-                        <td>Eu entendo que pode ter sido cansativo</td>
-                        <td><span class="category-emp">EMP</span></td>
-                    </tr>
-                    <tr>
-                        <td>Cliente</td>
-                        <td>Foi um dia muito difícil</td>
-                        <td><span class="category-sre">SRE</span></td>
-                    </tr>
-                    <tr>
-                        <td>Cliente</td>
-                        <td>Me senti sobrecarregado</td>
-                        <td><span class="category-emp">EMP</span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+                <div class="table-container">
+                  <table class="table" aria-live="polite">
+                      <caption>Resultados da Categorização</caption>
+                      <thead>
+                          <tr>
+                              <th scope="col">Falante</th>
+                              <th scope="col">Texto</th>
+                              <th scope="col">Categoria</th>
+                          </tr>
+                      </thead>
+                      <tbody id="results-tbody">
+                          <tr>
+                              <td>Terapeuta</td>
+                              <td>Poderia me contar como foi seu dia?</td>
+                              <td><span class="category-sre">SRE</span></td>
+                          </tr>
+                          <tr>
+                              <td>Cliente</td>
+                              <td>Foi um dia muito difícil</td>
+                              <td><span class="category-emp">EMP</span></td>
+                          </tr>
+                      </tbody>
+                  </table>
+                </div>
+            </fieldset>
 
-        <section class="section">
-            <h2 class="section-title">Categorização via CSV</h2>
-            <label class="input-label" for="csvFile">Selecione um arquivo CSV:</label>
-            <div class="file-input-container">
-                <input type="file" class="file-input" accept=".csv" id="csvFile" aria-label="Selecionar arquivo CSV">
-                <label for="csvFile" class="file-input-label">Escolher arquivo</label>
-                <span class="file-status">Nenhum arquivo escolhido</span>
-            </div>
-            <br>
-            <button class="btn-secondary" aria-label="Categorizar arquivo CSV" id="categorizar-frases-btn">Categorizar CSV</button>
-            <a href="#" class="download-link" download>Baixar exemplo de CSV</a>
-        </section>
+            <fieldset>
+                <legend>Categorização via Arquivo CSV</legend>
+                <div class="input-group">
+                    <label class="input-label" for="csv-file-input">Selecione um arquivo CSV:</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="csv-file-input" class="file-input" accept=".csv" aria-label="Selecione um arquivo CSV para categorização">
+                        <label for="csv-file-input" class="file-input-label">Escolher arquivo</label>
+                        <span id="csv-file-status" class="file-status">Nenhum arquivo escolhido</span>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button id="btn-categorize-csv" class="btn btn-secondary">Categorizar CSV</button>
+                    <a href="#" class="download-link" download>Baixar CSV de Exemplo</a>
+                </div>
+            </fieldset>
 
-        <section class="section">
-            <h2 class="section-title">Importar CSV para Treinamento</h2>
-            <label class="input-label" for="csvExample">Selecione um arquivo CSV para importar:</label>
-            <div class="file-input-container">
-                <input type="file" class="file-input" accept=".csv" id="csvExample" aria-label="Selecionar arquivo CSV de exemplo">
-                <label for="csvExample" class="file-input-label">Escolher arquivo</label>
-                <span class="file-status" id="csvExample-status">Nenhum arquivo escolhido</span>
-            </div>
-            <br>
-            <button class="btn-primary" aria-label="Importar CSV de Exemplo">Importar CSV para Treinamento</button>
-        </section>
+            <fieldset>
+                <legend>Importar CSV para Treinamento</legend>
+                <div class="input-group">
+                    <label class="input-label" for="csv-training-input">Selecione um arquivo CSV para importar:</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="csv-training-input" class="file-input" accept=".csv" aria-label="Selecione um arquivo CSV para treinamento do modelo">
+                        <label for="csv-training-input" class="file-input-label">Escolher arquivo</label>
+                        <span id="csv-training-status" class="file-status">Nenhum arquivo escolhido</span>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button id="btn-import-csv" class="btn btn-primary">Importar para Treinamento</button>
+                </div>
+            </fieldset>
+            
+            <div id="status-message" role="status" aria-live="polite"></div>
+        </main>
     </div>
 
-    
+    <footer class="page-footer">
+        <div class="footer-container">
+            <section id="sobre" class="footer-section" aria-labelledby="footer-about-title">
+                <h3 id="footer-about-title">Sobre o PsiTagger</h3>
+                <p>O PsiTagger é uma ferramenta projetada para auxiliar terapeutas e pesquisadores na análise de sessões, categorizando automaticamente as falas com base em modelos de inteligência artificial.</p>
+            </section>
+            <section id="contato" class="footer-section" aria-labelledby="footer-contact-title">
+                <h3 id="footer-contact-title">Contato</h3>
+                <p>Para suporte, sugestões ou parcerias, entre em contato com a equipe:</p>
+                <ul class="contact-list">
+                    <li>Otávio Vieira: <a href="mailto:otavioolv@sempreceub.com">otavioolv@sempreceub.com</a></li>
+                    <li>Enzo Rodrigues: <a href="mailto:eznr527@sempreceub.com">eznr527@sempreceub.com</a></li>
+                    <li>Bruno Isaac Sanches: <a href="mailto:bruno.isaac@sempreceub.com">bruno.isaac@sempreceub.com</a></li>
+                </ul>
+            </section>
+            <section id="integrante" class="footer-section" aria-labelledby="footer-devs-title">
+                <h3 id="footer-devs-title">Integrantes</h3>
+                <div class="dev-links">
+                    <a href="https://www.linkedin.com/in/0otávio-vieira/" target="_blank" rel="noopener noreferrer">Otávio Vieira</a>
+                    <a href="https://www.linkedin.com/in/bruno-isaac-sanches-9561022a1/" target="_blank" rel="noopener noreferrer">Bruno Isaac Sanches</a>
+                    <a href="https://www.linkedin.com/in/enzo-rodrigues-ribeiro-134405268/" target="_blank" rel="noopener noreferrer">Enzo Rodrigues Ribeiro</a>
+                </div>
+            </section>
+        </div>
+    </footer>
 
     <script>
-        document.getElementById('csvFile').addEventListener('change', function(e) {
-            const fileStatus = document.querySelector('.file-status');
-            if (e.target.files.length > 0) {
-                fileStatus.textContent = e.target.files[0].name;
-                fileStatus.style.color = 'var(--primary-color)';
-            } else {
-                fileStatus.textContent = 'Nenhum arquivo escolhido';
-                fileStatus.style.color = '#666';
-            }
-        });
+        document.addEventListener('DOMContentLoaded', () => {
+            const statusMessageEl = document.getElementById('status-message');
 
-        document.querySelector('.btn-primary').addEventListener('click', function() {
-            alert('Funcionalidade de categorizacao seria implementada aqui');
-        });
+            const showStatus = (message, type = 'info') => {
+                statusMessageEl.textContent = message;
+                statusMessageEl.className = `status-message ${type}`;
+                statusMessageEl.style.display = 'block';
+            };
+            
+            const hideStatus = () => {
+                statusMessageEl.style.display = 'none';
+            };
 
-        document.querySelector('.btn-secondary').addEventListener('click', function() {
-            alert('Funcionalidade de categorizacao CSV seria implementada aqui');
-        });
+            const handleFileInputChange = (event) => {
+                const input = event.target;
+                const statusId = input.id.replace('-input', '-status');
+                const statusEl = document.getElementById(statusId);
+                
+                if (input.files.length > 0) {
+                    statusEl.textContent = input.files[0].name;
+                    statusEl.style.color = 'var(--success-color)';
+                } else {
+                    statusEl.textContent = 'Nenhum arquivo escolhido';
+                    statusEl.style.color = '#666';
+                }
+            };
+            
+            const simulateProcessing = (button, startMsg, successMsg) => {
+                hideStatus();
+                button.disabled = true;
+                showStatus(startMsg, 'info');
 
-        document.getElementById('csvExample').addEventListener('change', function(e) {
-            const status = document.getElementById('csvExample-status');
-            if (e.target.files.length > 0) {
-                status.textContent = e.target.files[0].name;
-                status.style.color = 'var(--primary-color)';
-            } else {
-                status.textContent = 'Nenhum arquivo escolhido';
-                status.style.color = '#666';
-            }
-        });
+                setTimeout(() => {
+                    showStatus(successMsg, 'success');
+                    button.disabled = false;
+                }, 2000);
+            };
 
-        document.querySelectorAll('button[aria-label="Importar CSV de Exemplo"]').forEach(btn => {
-            btn.addEventListener('click', function() {
-                alert('Funcionalidade de importacao CSV de exemplo seria implementada aqui');
+            document.getElementById('csv-file-input').addEventListener('change', handleFileInputChange);
+            document.getElementById('csv-training-input').addEventListener('change', handleFileInputChange);
+
+            document.getElementById('btn-categorize-text').addEventListener('click', (e) => {
+                const terapeutaInput = document.getElementById('falas-terapeuta');
+                const clienteInput = document.getElementById('falas-cliente');
+
+                if (!terapeutaInput.value.trim() || !clienteInput.value.trim()) {
+                    showStatus('Por favor, preencha as falas do terapeuta e do cliente.', 'error');
+                    return;
+                }
+                
+                simulateProcessing(e.target, 'Categorizando frases...', 'Frases categorizadas com sucesso!');
+            });
+
+            document.getElementById('btn-categorize-csv').addEventListener('click', (e) => {
+                const fileInput = document.getElementById('csv-file-input');
+                if (fileInput.files.length === 0) {
+                    showStatus('Por favor, selecione um arquivo CSV para categorizar.', 'error');
+                    return;
+                }
+                simulateProcessing(e.target, `Processando o arquivo: ${fileInput.files[0].name}...`, 'Arquivo CSV processado com sucesso!');
+            });
+            
+            document.getElementById('btn-import-csv').addEventListener('click', (e) => {
+                const fileInput = document.getElementById('csv-training-input');
+                if (fileInput.files.length === 0) {
+                    showStatus('Por favor, selecione um arquivo CSV para importar.', 'error');
+                    return;
+                }
+                simulateProcessing(e.target, `Importando o arquivo: ${fileInput.files[0].name}...`, 'Arquivo importado para treinamento com sucesso!');
             });
         });
     </script>
